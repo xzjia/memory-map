@@ -1,0 +1,56 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 70px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+  margin-top: 3em;
+}
+
+.map-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+.photo-marker {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.upload-preview {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  vertical-align: middle;
+  margin-right: 1em;
+}
+
+.place-input {
+  width: 20%;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
