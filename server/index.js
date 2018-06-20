@@ -52,10 +52,7 @@ app.post("/api/v1/photos", upload.array("photos"), (req, res) => {
   res.status(200).send("All photos uploaded.");
 });
 
-// Always return the main index.html, so react-router render the route in the client
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
-});
+app.use(express.static(path.join(__dirname, "../build")));
 
 console.log("Starting express...");
 app.listen(PORT, () => {

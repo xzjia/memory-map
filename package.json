@@ -22,9 +22,9 @@
     "uuid": "^3.2.1"
   },
   "scripts": {
-    "dev": "nodemon -r dotenv/config server",
+    "devs": "nodemon -r dotenv/config server",
     "start": "node -r dotenv/config server",
-    "hack": "PORT=80 react-scripts start",
+    "devc": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
