@@ -5,7 +5,7 @@ import "./App.css";
 import MemoryMap from "./containers/MemoryMap";
 import PhotoUploader from "./containers/PhotoUploader";
 import { getMarkers } from "./actions/index";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class App extends Component {
   render() {
@@ -14,14 +14,24 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <Switch>
-          <Route exact path="/" component={PhotoUploader} />
-          <Route
-            exact
-            path={`/${this.props.currentUserSecret}`}
-            component={MemoryMap}
-          />
-        </Switch>
+        <Router>
+          <div>
+            <header className="App-header">
+              <Link to="/">
+                <h1 className="App-title">Upload</h1>
+              </Link>
+              <Link to={`/${this.props.currentUserSecret}`}>
+                <h1 className="App-title">Current map</h1>
+              </Link>
+            </header>
+            <Route exact path="/" component={PhotoUploader} />
+            <Route
+              exact
+              path={`/${this.props.currentUserSecret}`}
+              component={MemoryMap}
+            />{" "}
+          </div>
+        </Router>
       </div>
     );
   }

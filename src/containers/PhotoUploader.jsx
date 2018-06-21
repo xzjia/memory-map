@@ -8,12 +8,6 @@ class PhotoUploader extends Component {
   render() {
     return (
       <section>
-        <header className="App-header">
-          <h1 className="App-title">Memory Map</h1>
-        </header>
-        <div className="App-intro">
-          <a href={`/${this.props.currentUserSecret}`}> Your current map </a>
-        </div>
         <div className="dropzone">
           <Dropzone
             accept="image/jpeg, image/png"
