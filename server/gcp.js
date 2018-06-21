@@ -1,19 +1,16 @@
 const Storage = require("@google-cloud/storage");
 const axios = require("axios");
-const projectId = process.env.GCP_PROJECT;
 
-const storage = new Storage({
-  projectId,
-  keyFilename: process.env.CLOUD_STORAGE_KEY
-});
+const storage = Storage();
 
-const bucketName = process.env.BUCKET_NAME;
+const bucketName = process.env.GCLOUD_STORAGE_BUCKET;
+console.log(`bucketname is ${bucketName}`);
 
 const bucket = storage.bucket(bucketName);
 const publicBaseUrl = `https://storage.googleapis.com/${bucketName}/`;
 const googleGeoCodeBaseUrl = `https://maps.googleapis.com/maps/api/geocode/json`;
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+const GOOGLE_GEO_API_KEY = process.env.GOOGLE_GEO_API_KEY;
 
 const getPhotos = () => {
   return bucket
@@ -54,7 +51,7 @@ const savePhoto = (currentUserName, photoPath, fileName, metadata) => {
 const getGeoCode = async placeName => {
   const response = await axios.get(googleGeoCodeBaseUrl, {
     params: {
-      key: GOOGLE_API_KEY,
+      key: GOOGLE_GEO_API_KEY,
       address: placeName
     }
   });

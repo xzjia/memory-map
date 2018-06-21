@@ -54,6 +54,10 @@ app.post("/api/v1/photos", upload.array("photos"), (req, res) => {
 
 app.use(express.static(path.join(__dirname, "../build")));
 
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
+});
+
 console.log("Starting express...");
 app.listen(PORT, () => {
   console.log(`Access http://localhost:${PORT}/api/v1/markers`);
