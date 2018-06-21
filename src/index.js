@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import reducer from "./reducers/index";
-import registerServiceWorker from "./registerServiceWorker";
+// import registerServiceWorker from "./registerServiceWorker";
 
 const createStoreWithMiddleware = compose(applyMiddleware(thunk))(createStore);
 
@@ -25,4 +25,4 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
-registerServiceWorker();
+// registerServiceWorker();
