@@ -1,19 +1,15 @@
 const express = require("express");
 const morgan = require("morgan");
-const path = require("path");
 const uuidv4 = require("uuid/v4");
-const multer = require("multer");
+const path = require("path");
+const Multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads");
-  },
-  filename: (req, file, cb) => {
-    const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
-    cb(null, newFilename);
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
   }
 });
-const upload = multer({ storage });
 
 const { getPhotos, savePhoto, getGeoCode } = require("./gcp");
 
@@ -39,14 +35,16 @@ app.get("/api/v1/markers", async (req, res) => {
   }
 });
 
-app.post("/api/v1/photos", upload.array("photos"), (req, res) => {
+app.post("/api/v1/photos", multer.array("photos"), (req, res, next) => {
   const locationArray = Array.isArray(req.body.location)
     ? req.body.location
     : [req.body.location];
   locationArray.forEach((loc, i) => {
     const fileObj = req.files[i];
+    console.log(fileObj);
+    const newFilename = `${uuidv4()}${path.extname(fileObj.originalname)}`;
     getGeoCode(loc).then(data => {
-      savePhoto(currentUser, fileObj.path, fileObj.filename, data);
+      savePhoto(currentUser, newFilename, fileObj.buffer, data);
     });
   });
   res.status(200).send("All photos uploaded.");

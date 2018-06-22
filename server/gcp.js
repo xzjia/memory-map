@@ -28,24 +28,22 @@ const getPhotos = () => {
     });
 };
 
-const savePhoto = (currentUserName, photoPath, fileName, metadata) => {
-  const options = {
-    destination: `${currentUserName}/${fileName}`,
-    public: true,
+const savePhoto = (currentUserName, fileName, fileBuffer, metadata) => {
+  const blob = bucket.file(`${currentUserName}/${fileName}`);
+  const blobStream = blob.createWriteStream({
     metadata: {
       metadata: {
         ...metadata
       }
     }
-  };
-  bucket
-    .upload(photoPath, options)
-    .then(() => {
-      console.log(`${fileName} uploaded successfully `);
-    })
-    .catch(err => {
-      console.log(`Error happened when uploading ${fileName} ${err}`);
-    });
+  });
+  blobStream.on("error", err => {
+    console.log("error", err);
+  });
+  blobStream.on("finish", () => {
+    console.log("Finished uploading for ", fileName);
+  });
+  blobStream.end(fileBuffer);
 };
 
 const getGeoCode = async placeName => {
