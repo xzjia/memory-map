@@ -1,4 +1,6 @@
 import axios from "axios";
+import { NotificationManager } from "react-notifications";
+
 const DEFAULT_LOC = "Tokyo";
 
 function requestMarkerss() {
@@ -58,7 +60,18 @@ export function uploadPhotos(photos) {
         "Content-Type": "multipart/form-data"
       }
     };
+    NotificationManager.info("Submitted");
     return axios.post("/api/v1/photos", data, config).then(response => {
+      if (response.status === 200) {
+        NotificationManager.success(
+          `${photos.length} photo${
+            photos.length > 1 ? "s" : ""
+          } uploaded successfully`,
+          "Upload success."
+        );
+      } else {
+        NotificationManager.error("Upload failed");
+      }
       dispatch(requestMarkerss());
     });
   };

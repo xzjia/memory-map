@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Dropzone from "react-dropzone";
+import "react-notifications/lib/notifications.css";
+import { NotificationContainer } from "react-notifications";
 
 import { addPhoto, addPlace, uploadPhotos } from "../actions/index";
 
@@ -30,6 +32,7 @@ class PhotoUploader extends Component {
             <p>Only *.jpeg and *.png images will be accepted</p>
           </Dropzone>
         </div>
+        <NotificationContainer />
         <aside>
           {this.props.uploadPending.length > 0 ? (
             <div className="selectedHeader">
