@@ -38,16 +38,17 @@ class PhotoUploader extends Component {
                 onClick={() =>
                   this.props.uploadPhotos(this.props.uploadPending)
                 }
+                className="upload-button"
               >
-                Upload
+                <span>Upload</span>
               </button>
             </div>
           ) : (
             ""
           )}
-          <ul>
+          <ul className="upload-preview-container">
             {this.props.uploadPending.map((f, index) => (
-              <div key={f.name} className="photo-preview">
+              <div key={f.name} className="upload-preview-item">
                 <img
                   className="upload-preview"
                   src={f.preview}

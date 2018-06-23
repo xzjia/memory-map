@@ -16,14 +16,14 @@ class App extends Component {
       <div className="App">
         <Router>
           <div>
-            <header className="App-header">
-              <Link to="/">
-                <h1 className="App-title">Upload</h1>
-              </Link>
-              <Link to={`/${this.props.currentUserSecret}`}>
-                <h1 className="App-title">Current map</h1>
-              </Link>
-            </header>
+            <ul className="menu-bar">
+              <li className="menu-item">
+                <Link to="/">Upload</Link>
+              </li>
+              <li className="menu-item">
+                <Link to={`/${this.props.currentUserSecret}`}>Current map</Link>
+              </li>
+            </ul>
             <Route exact path="/" component={PhotoUploader} />
             <Route
               exact
