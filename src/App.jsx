@@ -8,10 +8,11 @@ import { getMarkers } from "./actions/index";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class App extends Component {
+  componentDidMount() {
+    this.props.getMarkers();
+  }
+
   render() {
-    if (this.props.isFetchingMarkers) {
-      this.props.getMarkers();
-    }
     return (
       <div className="App">
         <Router>

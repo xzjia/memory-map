@@ -19,13 +19,10 @@ function receiveMarkers(markers) {
 export function getMarkers() {
   return function(dispatch) {
     dispatch(requestMarkerss());
-
-    return fetch("/api/v1/markers")
-      .then(
-        response => response.json(),
-        error => console.log("An error occurred.", error)
-      )
-      .then(json => dispatch(receiveMarkers(json)));
+    return axios
+      .get("/api/v1/markers")
+      .then(response => dispatch(receiveMarkers(response.data)))
+      .catch(err => console.log(err));
   };
 }
 
@@ -61,18 +58,29 @@ export function uploadPhotos(photos) {
       }
     };
     NotificationManager.info("Submitted");
-    return axios.post("/api/v1/photos", data, config).then(response => {
-      if (response.status === 200) {
-        NotificationManager.success(
-          `${photos.length} photo${
-            photos.length > 1 ? "s" : ""
-          } uploaded successfully`,
-          "Upload success."
-        );
-      } else {
-        NotificationManager.error("Upload failed");
-      }
-      dispatch(requestMarkerss());
-    });
+    return axios
+      .post("/api/v1/photos", data, config)
+      .then(response => {
+        if (response.status === 200) {
+          NotificationManager.success(
+            `${photos.length} photo${
+              photos.length > 1 ? "s" : ""
+            } uploaded successfully`,
+            "Upload success."
+          );
+        } else {
+          NotificationManager.error("Upload failed");
+        }
+      })
+      .then(() => {
+        dispatch(requestMarkerss());
+        return axios
+          .get("/api/v1/markers")
+          .then(response => {
+            return response.data;
+          })
+          .then(json => dispatch(receiveMarkers(json)))
+          .catch(err => console.log(err));
+      });
   };
 }

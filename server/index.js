@@ -7,7 +7,7 @@ const Multer = require("multer");
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
+    fileSize: 5 * 1024 * 1024 // no larger than 5mb
   }
 });
 
@@ -35,19 +35,18 @@ app.get("/api/v1/markers", async (req, res) => {
   }
 });
 
-app.post("/api/v1/photos", multer.array("photos"), (req, res, next) => {
+app.post("/api/v1/photos", multer.array("photos"), (req, res) => {
   const locationArray = Array.isArray(req.body.location)
     ? req.body.location
     : [req.body.location];
   locationArray.forEach((loc, i) => {
     const fileObj = req.files[i];
-    console.log(fileObj);
     const newFilename = `${uuidv4()}${path.extname(fileObj.originalname)}`;
     getGeoCode(loc).then(data => {
       savePhoto(currentUser, newFilename, fileObj.buffer, data);
     });
   });
-  res.status(200).send("All photos uploaded.");
+  setTimeout(() => res.status(200).send("All photos uploaded."), 1500);
 });
 
 app.use(express.static(path.join(__dirname, "../build")));
@@ -56,7 +55,6 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
 
-console.log("Starting express...");
 app.listen(PORT, () => {
   console.log(`Access http://localhost:${PORT}/api/v1/markers`);
 });
