@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
 import { connect } from "react-redux";
 
+const centerPhotoMarker = {
+  position: "absolute",
+  transform: "translate(-50%, -50%)"
+};
+
 const PhotoMarker = ({ src, altText }) => (
-  <div className="photo-marker-container">
+  <div className="photo-marker-container" style={centerPhotoMarker}>
     <img className="photo-marker" src={src} alt={altText} />{" "}
   </div>
 );
