@@ -5,6 +5,7 @@ import "react-notifications/lib/notifications.css";
 import { NotificationContainer } from "react-notifications";
 
 import { addPhoto, addPlace, uploadPhotos } from "../actions/index";
+import PlacesWithStandaloneSearchBox from "../components/PlacesWithStandaloneSearchBox";
 
 class PhotoUploader extends Component {
   render() {
@@ -57,6 +58,7 @@ class PhotoUploader extends Component {
                   src={f.preview}
                   alt="Uploaded preview"
                 />{" "}
+                <PlacesWithStandaloneSearchBox />
                 <input
                   type="text"
                   className="place-input"
