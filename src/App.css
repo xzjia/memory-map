@@ -75,6 +75,7 @@
   border-radius: 50%;
   width: 60px;
   height: 60px;
+  object-fit: cover;
 }
 
 .upload-preview-container {
@@ -87,6 +88,7 @@
 
 .upload-preview {
   border-radius: 50%;
+  object-fit: cover;
   width: 100px;
   height: 100px;
   vertical-align: middle;
