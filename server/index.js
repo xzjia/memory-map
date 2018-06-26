@@ -39,14 +39,15 @@ app.post("/api/v1/photos", multer.array("photos"), (req, res) => {
   const locationArray = Array.isArray(req.body.location)
     ? req.body.location
     : [req.body.location];
-  locationArray.forEach((loc, i) => {
+  const photoUploadPromises = locationArray.map(async (loc, i) => {
     const fileObj = req.files[i];
     const newFilename = `${uuidv4()}${path.extname(fileObj.originalname)}`;
-    getGeoCode(loc).then(data => {
-      savePhoto(currentUser, newFilename, fileObj.buffer, data);
-    });
+    const geoCode = await getGeoCode(loc);
+    return savePhoto(currentUser, newFilename, fileObj.buffer, geoCode);
   });
-  setTimeout(() => res.status(200).send("All photos uploaded."), 1500);
+  Promise.all(photoUploadPromises).then(() => {
+    res.status(200).send("All photos uploaded.");
+  });
 });
 
 app.use(express.static(path.join(__dirname, "../build")));

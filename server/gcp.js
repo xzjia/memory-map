@@ -29,21 +29,26 @@ const getPhotos = () => {
 };
 
 const savePhoto = (currentUserName, fileName, fileBuffer, metadata) => {
-  const blob = bucket.file(`${currentUserName}/${fileName}`);
-  const blobStream = blob.createWriteStream({
-    metadata: {
+  const savePhoto = new Promise((resolve, reject) => {
+    const blob = bucket.file(`${currentUserName}/${fileName}`);
+    const blobStream = blob.createWriteStream({
       metadata: {
-        ...metadata
+        metadata: {
+          ...metadata
+        }
       }
-    }
+    });
+    blobStream.on("error", err => {
+      console.log("error", err);
+      reject(err);
+    });
+    blobStream.on("finish", () => {
+      console.log("Finished uploading for ", fileName);
+      resolve(fileName);
+    });
+    blobStream.end(fileBuffer);
   });
-  blobStream.on("error", err => {
-    console.log("error", err);
-  });
-  blobStream.on("finish", () => {
-    console.log("Finished uploading for ", fileName);
-  });
-  blobStream.end(fileBuffer);
+  return savePhoto;
 };
 
 const getGeoCode = async placeName => {
